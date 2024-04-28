@@ -1,3 +1,44 @@
+time = seconds(simout.Time);
+p_ref = simout.Data(:,1);
+p_meas = simout.Data(:,2);
+p_error = simout.Data(:,3);
+p_set = simout.Data(:,4);
+p_min = simout.Data(:,5);
+p_max = simout.Data(:,6);
+
+l = length(time);
+
+
+
+figure;
+subplot(1,2,1)
+plot(time, p_error, 'LineWidth', 1, 'LineStyle','-');
+hold on
+plot(time, p_ref, 'LineWidth', 1, 'LineStyle','--');
+hold on
+plot(time, p_meas, 'LineWidth', 1, 'LineStyle','--');
+axis tight
+title("PI-controller step response")
+xlabel('Time [s]')
+ylabel('P [W]')
+ylim([-3.5e4 3e4])
+%xtickformat('hh:mm')
+lgd = legend('Error', 'Reference Power', 'Measured Power');
+set(lgd,'location','best')
+
+subplot(1,2,2)
+plot(time(int32(l/2):l), p_error(int32(l/2):l), 'LineWidth', 1, 'LineStyle','-');
+hold on
+yline( 5.8, 'LineWidth', 1, 'LineStyle','--');
+hold on
+yline( -5.8, 'LineWidth', 1, 'LineStyle','--');
+axis tight
+title("Settling Time: 8.5 seconds")
+xlabel('Time [s]')
+ylabel('Error [W]')
+ylim([-40 40])
+lgd = legend('Error', '+ 0.1 %', '- 0.1 %');
+set(lgd,'location','best')
 
 %% Step 2
 time = seconds(power_profiles.Time);
